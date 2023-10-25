@@ -14,6 +14,7 @@ namespace DoReMusic.Persistence.Contexts
     {
         public DbSet<Instrument> Instruments { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
