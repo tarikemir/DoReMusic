@@ -2,6 +2,7 @@
 using DoReMusic.Domain.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace DoReMusic.Domain.Entities
     {
         public string Name { get; set; }
         public Brand Brand { get; set; } //Entity
+        public Category Category { get; set; }
         public string Model { get; set; }
         public Color Color { get; set; }
         public DateTime? ProductionYear { get; set; }
