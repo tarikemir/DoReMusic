@@ -11,5 +11,13 @@ namespace DoReMusic.Domain.Entities
     {
         public string Name { get; set; }
         public string Details { get; set; }
+
+        public List<String>? Kinds { get; set; }
+        public Category()
+        {
+            Id = Guid.NewGuid(); // Generate a unique identifier
+            CreatedOn = DateTime.UtcNow; // Set the creation date to the current time in UTC
+        }
+
     }
 }
