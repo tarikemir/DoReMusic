@@ -23,7 +23,7 @@
                     <div class="category-details">
                         @foreach (var kind in category.Kinds)
                         {
-                            <a href="#" class="kind-link">@kind</a>
+                            <a href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = category.Name, kind = kind })" class="kind-link">@kind</a>
                         }
                     </div>
                 </div>
