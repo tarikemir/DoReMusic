@@ -11,12 +11,20 @@ namespace DoReMusic.MVC.Controllers
         {
             _context = new DoReMusicDbContext();
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             var categories = _context.Categories.ToList();
             return View(categories);
         }
+
+        [HttpGet]
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult DeleteCategory(string id)
         {
             Category category = _context.Categories.Where(x => x.Id == Guid.Parse(id)).FirstOrDefault();
