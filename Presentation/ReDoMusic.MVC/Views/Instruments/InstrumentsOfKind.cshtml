@@ -40,6 +40,7 @@
         th {
             background-color: #007bff;
             color: #fff;
+            cursor: pointer;
         }
 
         tr:nth-child(even) {
@@ -49,22 +50,54 @@
         tr:hover {
             background-color: #ddd;
         }
+
+        /* Modern-looking buttons */
+        .sort-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+        }
+
+            .sort-button:hover {
+                background-color: #0056b3;
+            }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>List of Instruments</h2>
+
+        <!-- Sorting buttons -->
+        <a class="sort-button" href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "alphabetic" })">Name</a>
+        <a class="sort-button" href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "ascendingbyprice" })">Price Asc</a>
+        <a class="sort-button" href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "descendingbyprice" })">Price Desc</a>
+
         <table>
             <tr>
-                <th><a href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "alphabetic" })">Name</a></th>
-                <th><a href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "ascendingbyprice" })">Price Asc</a></th>
-                <th><a href="@Url.Action("InstrumentsOfKind", "Instruments", new { category = @Model.FirstOrDefault().Category.Name, kind = @Model.FirstOrDefault().Kind, sort = "descendingbyprice" })">Price Desc</a></th>
+                <th class="sortable" data-sort="name">Name</th>
+                <th class="sortable" data-sort="brand">Brand</th>
+                <th class="sortable" data-sort="category">Category</th>
+                <th class="sortable" data-sort="kind">Kind</th>
+                <th class="sortable" data-sort="model">Model</th>
+                <th class="sortable" data-sort="color">Color</th>
+                <th class="sortable" data-sort="productionyear">Production Year</th>
+                <th class="sortable" data-sort="price">Price</th>
             </tr>
             @foreach (var instrument in Model)
             {
                 <tr>
                     <td>@instrument.Name</td>
-                    <td>@instrument.Price</td>
+                    <td>@instrument.Brand.Name</td>
+                    <td>@instrument.Category.Name</td>
+                    <td>@instrument.Kind</td>
+                    <td>@instrument.Model</td>
+                    <td>@instrument.Color</td>
+                    <td>@instrument.ProductionYear</td>
                     <td>@instrument.Price</td>
                 </tr>
             }
