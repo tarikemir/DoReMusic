@@ -1,2 +1,52 @@
 ﻿@using DoReMusic.Domain.Entities
 @model List<Instrument>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Your existing styles here */
+    </style>
+</head>
+<body>
+    <h2>Instruments</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Kind</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>Production Year</th>
+                <th>Price</th>
+                <th>Action</th> <!-- New column for buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var instrument in Model)
+            {
+                <tr>
+                    <td>@instrument.Name</td>
+                    <td>@instrument.Brand</td>
+                    <td>@instrument.Category</td>
+                    <td>@instrument.Kind</td>
+                    <td>@instrument.Model</td>
+                    <td>@instrument.Color</td>
+                    <td>@instrument.ProductionYear</td>
+                    <td>@instrument.Price</td>
+                    <td>
+                        <!-- Update button -->
+                        <a asp-action="UpdateInstrument" asp-route-id="@instrument.Id" class="btn btn-primary">Update</a>
+
+                        <!-- Delete button -->
+                        <a asp-action="DeleteInstrument" asp-route-id="@instrument.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

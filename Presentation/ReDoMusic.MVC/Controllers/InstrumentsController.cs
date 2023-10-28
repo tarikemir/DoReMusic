@@ -6,6 +6,7 @@ using DoReMusic.MVC.ViewModels;
 using System.Drawing;
 using DoReMusic.Domain.Enum;
 using Color = DoReMusic.Domain.Enum.Color;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoReMusic.MVC.Controllers
 {
@@ -19,7 +20,8 @@ namespace DoReMusic.MVC.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var Instruments = doReMusicDbContext.Instruments.ToList();
+            return View(Instruments);
         }
 
         [HttpGet]
@@ -60,6 +62,27 @@ namespace DoReMusic.MVC.Controllers
 
 
             return RedirectToAction("AddInstrument");
+        }
+
+
+        public IActionResult DeleteInstrument(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instrument = doReMusicDbContext.Instruments.Where(m => m.Id == Guid.Parse(id)).FirstOrDefault();
+
+            if (instrument == null)
+            {
+                return NotFound();
+            }
+
+            doReMusicDbContext.Instruments.Remove(instrument);
+            doReMusicDbContext.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult InstrumentsOfKind(string category, string kind)
