@@ -1,4 +1,5 @@
 ﻿using DoReMusic.Domain.Entities;
+using DoReMusic.MVC.Models;
 using DoReMusic.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,28 @@ namespace DoReMusic.MVC.Controllers
         [HttpGet]
         public IActionResult AddCategory()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddCategory(AddCategoryModel categoryModel)
+        {
+            if(string.IsNullOrEmpty(categoryModel.Name) || string.IsNullOrEmpty(categoryModel.Kinds) || string.IsNullOrEmpty(categoryModel.Details))
+            {
+                return BadRequest();
+            }
+            List<string> kinds = categoryModel.Kinds.Split(',').ToList();
+            var CategoryToBeAdded = new Category()
+            {
+                Id = Guid.NewGuid(),
+                CreatedOn = DateTime.UtcNow,
+                Name = categoryModel.Name,
+                Details = categoryModel.Details,
+                Kinds = kinds,
+            };
+
+            _context.Categories.Add(CategoryToBeAdded);
+            _context.SaveChanges();
+
             return View();
         }
 
