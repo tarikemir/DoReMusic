@@ -20,7 +20,8 @@ namespace DoReMusic.MVC.Controllers
         }
         public IActionResult Index()
         {
-            var Instruments = doReMusicDbContext.Instruments.ToList();
+            var Instruments = doReMusicDbContext.Instruments.Include(x => x.Category).Include( x => x.Brand).ToList();
+
             return View(Instruments);
         }
 
@@ -64,8 +65,8 @@ namespace DoReMusic.MVC.Controllers
             return RedirectToAction("AddInstrument");
         }
 
-
-        public IActionResult DeleteInstrument(string id)
+        [HttpGet]
+        public IActionResult DeleteInstrument([FromRoute] string id)
         {
             if (id == null)
             {
@@ -84,7 +85,7 @@ namespace DoReMusic.MVC.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [HttpGet]
         public IActionResult InstrumentsOfKind(string category, string kind)
         {
             // Retrieve instruments that match the selected category and kind
