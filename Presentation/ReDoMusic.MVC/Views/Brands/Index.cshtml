@@ -1,0 +1,83 @@
+﻿@using DoReMusic.Domain.Entities
+@model List<Brand>
+
+<div class="container mt-3">
+    <h2 class="text-center minimalistic-text">Brands</h2>
+    <table class="table minimalistic-table">
+        <thead class="thead-light">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Address</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var brand in Model)
+            {
+                <tr>
+                    <td>@brand.Name</td>
+                    <td>@brand.DisplayText</td>
+                    <td>@brand.Address</td>
+                    <td>
+                        <a href="/Brands/UpdateBrand?Id=@brand.Id" type="button" class="btn btn-outline-warning btn-like">
+                            Update
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Brands/DeleteBrand?Id=@brand.Id" type="button" class="btn btn-danger btn-like">
+                            Delete
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Custom minimalistic styles */
+    .minimalistic-text {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .minimalistic-table {
+        background-color: #f7f7f7;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .minimalistic-table th, .minimalistic-table td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .minimalistic-table th {
+            background-color: #f5f5f5;
+        }
+
+        .minimalistic-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    .btn-like {
+        display: inline-block;
+        background-color: #d9534f;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-like:hover {
+            background-color: #c9302c;
+        }
+</style>

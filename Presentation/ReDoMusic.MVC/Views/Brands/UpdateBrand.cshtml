@@ -1,0 +1,26 @@
+﻿@model DoReMusic.MVC.ViewModels.UpdateViewModel
+
+<h2>Update Brand</h2>
+<div class="row">
+    <div class="col-md-8">
+        <!-- Brand details section -->
+        <div class="tab-pane">
+            <form asp-action="UpdateBrand" method="post">
+                <input type="hidden" value="@Model.Id" class="form-control" name="BrandId" />
+                <div class="form-group">
+                    <label class="control-label">Brand Name:</label>
+                    <input value="@Model.Name" class="form-control" name="Name" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Display Text:</label>
+                    <input value="@Model.DisplayText" class="form-control" name="DisplayText" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Address:</label>
+                    <input value="@Model.Address" class="form-control" name="Address" />
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
