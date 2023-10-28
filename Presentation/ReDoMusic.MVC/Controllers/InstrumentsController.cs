@@ -170,9 +170,43 @@ namespace DoReMusic.MVC.Controllers
                 instruments = instruments.OrderByDescending(x => x.Price).ToList();
             }
 
+            if (instruments.FirstOrDefault() == null) return NotFound();
             // Pass the list of instruments to the view
             return View(instruments);
         }
 
+        [HttpGet]
+        public IActionResult SearchInstruments( string search, string sort = "default")
+        {
+            List<Instrument> instruments = doReMusicDbContext.Instruments.Include(x=>x.Brand).Include(x=>x.Category).ToList();
+
+            List<Instrument> matchingInstruments = instruments
+                .Where(instrument =>
+                    instrument.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    instrument.Kind.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    instrument.Model.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    instrument.Brand.Name.Contains(search, StringComparison.OrdinalIgnoreCase)
+                )
+                .ToList();
+
+            if (sort == "alphabetic")
+            {
+                matchingInstruments = matchingInstruments.OrderBy(x => x.Name).ToList();
+            }
+            else if (sort == "ascendingbyprice")
+            {
+                matchingInstruments = matchingInstruments.OrderBy(x => x.Price).ToList();
+            }
+            else if (sort == "descendingbyprice")
+            {
+                matchingInstruments = matchingInstruments.OrderByDescending(x => x.Price).ToList();
+            }
+
+            SearchInstrumentViewmodel searchInstrumentViewmodel = new();
+            searchInstrumentViewmodel.search = search;
+            searchInstrumentViewmodel.Instruments = matchingInstruments;
+            
+            return View(searchInstrumentViewmodel);
+        }
     }
 }

@@ -1,0 +1,108 @@
+﻿@using DoReMusic.Domain.Entities;
+@using DoReMusic.MVC.ViewModels;
+@model SearchInstrumentViewmodel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Instruments</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Modern-looking buttons */
+        .sort-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 2px;
+        }
+
+            .sort-button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>List of Instruments</h2>
+
+        <!-- Sorting buttons -->
+        <a class="sort-button" href="@Url.Action("SearchInstruments", "Instruments", new { search = Model.search, sort = "alphabetic" })">Name</a>
+        <a class="sort-button" href="@Url.Action("SearchInstruments", "Instruments", new { search = Model.search, sort = "ascendingbyprice" })">Price Asc</a>
+        <a class="sort-button" href="@Url.Action("SearchInstruments", "Instruments", new { search = Model.search, sort = "descendingbyprice" })">Price Desc</a>
+
+        <table>
+            <tr>
+                <th class="sortable" data-sort="name">Name</th>
+                <th class="sortable" data-sort="brand">Brand</th>
+                <th class="sortable" data-sort="category">Category</th>
+                <th class="sortable" data-sort="kind">Kind</th>
+                <th class="sortable" data-sort="model">Model</th>
+                <th class="sortable" data-sort="color">Color</th>
+                <th class="sortable" data-sort="productionyear">Production Year</th>
+                <th class="sortable" data-sort="price">Price</th>
+            </tr>
+            @foreach (var instrument in Model.Instruments)
+            {
+                <tr>
+                    <td>@instrument.Name</td>
+                    <td>@instrument.Brand.Name</td>
+                    <td>@instrument.Category.Name</td>
+                    <td>@instrument.Kind</td>
+                    <td>@instrument.Model</td>
+                    <td>@instrument.Color</td>
+                    <td>@instrument.ProductionYear</td>
+                    <td>@instrument.Price</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
