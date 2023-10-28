@@ -134,11 +134,31 @@ namespace DoReMusic.MVC.Controllers
         }
         
         [HttpGet]
-        public IActionResult InstrumentsOfKind(string category, string kind)
+        public IActionResult InstrumentsOfKind(string category, string kind, string sort="default")
         {
             // Retrieve instruments that match the selected category and kind
             // You can fetch data from your data source based on the category and kind
-            var instruments = doReMusicDbContext.Instruments.Where(x => x.Category.Name == category && x.Kind == kind).ToList();
+
+            
+            var instruments = doReMusicDbContext.Instruments
+                .Where(x => x.Category.Name == category)
+                .Where( x => x.Kind == kind)
+                .Include(x => x.Brand)
+                .Include(x => x.Category)
+                .ToList();
+
+            if (sort == "alphabetic")
+            {
+                instruments = instruments.OrderBy(x => x.Name).ToList();
+            }
+            else if (sort == "ascendingbyprice")
+            {
+                instruments = instruments.OrderBy(x => x.Price).ToList();
+            }
+            else if (sort == "descendingbyprice")
+            {
+                instruments = instruments.OrderByDescending(x => x.Price).ToList();
+            }
 
             // Pass the list of instruments to the view
             return View(instruments);
