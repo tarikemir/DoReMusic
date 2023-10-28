@@ -17,8 +17,9 @@ namespace DoReMusic.Domain.Entities
         public String Kind { get; set; }
         public string Model { get; set; }
         public Color Color { get; set; }
-        public DateTime? ProductionYear { get; set; }
+        public string ProductionYear { get; set; }
         public decimal Price { get; set; }
+
 
     }
 }

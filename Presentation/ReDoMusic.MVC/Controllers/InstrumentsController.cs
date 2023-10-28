@@ -1,5 +1,11 @@
-﻿using DoReMusic.Persistence.Contexts;
+﻿using DoReMusic.MVC.Models;
+using DoReMusic.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc;
+using DoReMusic.Domain.Entities;
+using DoReMusic.MVC.ViewModels;
+using System.Drawing;
+using DoReMusic.Domain.Enum;
+using Color = DoReMusic.Domain.Enum.Color;
 
 namespace DoReMusic.MVC.Controllers
 {
@@ -15,6 +21,47 @@ namespace DoReMusic.MVC.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AddInstrument()
+        {
+            InstrumentViewModel instrumentViewModel = new()
+            {
+                Brands = doReMusicDbContext.Brands.ToList(),
+                Categories = doReMusicDbContext.Categories.ToList(),
+            };
+            return View(instrumentViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AddInstrument(AddInstrumentRequest InstrumentRequest)
+        {
+            Brand tempBrand = doReMusicDbContext.Brands.Where(x => x.Id == Guid.Parse(InstrumentRequest.Brand)).FirstOrDefault();
+            Category tempCategory = doReMusicDbContext.Categories.Where(x => x.Id == Guid.Parse(InstrumentRequest.Category)).FirstOrDefault();
+
+            //if (tempBrand == null || tempCategory == null) return NotFound();
+            
+            
+            Instrument NewInstrument = new Instrument()
+            {
+                Id = Guid.NewGuid(),
+                Name = InstrumentRequest.Name,
+                Brand = tempBrand,
+                Category = tempCategory,
+                Kind = InstrumentRequest.Kind,
+                Model = InstrumentRequest.Model,
+                Color = (Color) Convert.ToInt32(InstrumentRequest.Color),
+                Price = InstrumentRequest.Price,
+                ProductionYear = InstrumentRequest.ProductionYear,
+            };
+
+            doReMusicDbContext.Instruments.Add(NewInstrument);
+            doReMusicDbContext.SaveChanges();
+
+
+            return RedirectToAction("AddInstrument");
+        }
+
         public IActionResult InstrumentsOfKind(string category, string kind)
         {
             // Retrieve instruments that match the selected category and kind
