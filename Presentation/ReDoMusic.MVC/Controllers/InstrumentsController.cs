@@ -7,6 +7,7 @@ using System.Drawing;
 using DoReMusic.Domain.Enum;
 using Color = DoReMusic.Domain.Enum.Color;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace DoReMusic.MVC.Controllers
 {
@@ -84,6 +85,27 @@ namespace DoReMusic.MVC.Controllers
             doReMusicDbContext.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult UpdateInstrument(string id)
+        {
+            var instrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(id)).FirstOrDefault(); // Implement your logic to retrieve all brands
+
+            var viewModel = new UpdateInstrumentModel()
+            {
+                Id = instrument.Id,
+                Name = instrument.Name,
+                Brand = instrument.Brand.Name,
+                Category = instrument.Category.Name,
+                Kind = instrument.Kind,
+                Model = instrument.Model,
+                Color = instrument.Color,
+                Price = instrument.Price,
+                ProductionYear = instrument.ProductionYear,
+            };
+        
+
+            return View(instrument);
         }
         [HttpGet]
         public IActionResult InstrumentsOfKind(string category, string kind)
