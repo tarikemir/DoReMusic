@@ -1,7 +1,9 @@
 ﻿using DoReMusic.Domain.Entities;
 using DoReMusic.MVC.Models;
+using DoReMusic.MVC.ViewModels;
 using DoReMusic.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoReMusic.MVC.Controllers
 {
@@ -12,6 +14,8 @@ namespace DoReMusic.MVC.Controllers
         {
             _context = new DoReMusicDbContext();
         }
+
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -24,6 +28,7 @@ namespace DoReMusic.MVC.Controllers
         {
             return View();
         }
+        
         [HttpPost]
         public IActionResult AddCategory(AddCategoryModel categoryModel)
         {
@@ -45,6 +50,28 @@ namespace DoReMusic.MVC.Controllers
             _context.SaveChanges();
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult UpdateCategory( string id)
+        {
+            Category category = _context.Categories.Where(x => x.Id == Guid.Parse(id))
+                .FirstOrDefault();
+
+            return View(category);
+        }
+        [HttpPost]
+        public IActionResult UpdateCategory(CategoryUpdateViewModel updateViewModel)
+        {
+            Category ModifiedCategory = _context.Categories.Where(x => x.Id == Guid.Parse(updateViewModel.Id)).FirstOrDefault();
+
+            ModifiedCategory.Name = updateViewModel.Name;
+            ModifiedCategory.Kinds = updateViewModel.Kinds;
+            ModifiedCategory.Details = updateViewModel.Details;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

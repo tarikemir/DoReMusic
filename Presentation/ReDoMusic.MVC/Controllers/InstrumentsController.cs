@@ -20,9 +20,22 @@ namespace DoReMusic.MVC.Controllers
         {
             doReMusicDbContext = new DoReMusicDbContext();
         }
-        public IActionResult Index()
+        public IActionResult Index(string sort = "default")
         {
             var Instruments = doReMusicDbContext.Instruments.Include(x => x.Category).Include( x => x.Brand).ToList();
+            
+            if (sort == "alphabetic")
+            {
+                Instruments = Instruments.OrderBy(x => x.Name).ToList();
+            }
+            else if (sort == "ascendingbyprice")
+            {
+                Instruments = Instruments.OrderBy(x => x.Price).ToList();
+            }
+            else if (sort == "descendingbyprice")
+            {
+                Instruments = Instruments.OrderByDescending(x => x.Price).ToList();
+            }
 
             return View(Instruments);
         }
@@ -114,7 +127,7 @@ namespace DoReMusic.MVC.Controllers
         [HttpPost]
         public IActionResult UpdateInstrument(UpdateInstrumentViewModel updateInstrumentModel)
         {
-            Instrument originalInstrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(updateInstrumentModel.Id)).FirstOrDefault();
+            Domain.Entities.Instrument originalInstrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(updateInstrumentModel.Id)).FirstOrDefault();
             
             Category newCategory = doReMusicDbContext.Categories.Where(x => x.Name == updateInstrumentModel.Category).FirstOrDefault();
             Brand newBrand = doReMusicDbContext.Brands.Where(x => x.Name == updateInstrumentModel.Brand).FirstOrDefault();
@@ -136,9 +149,6 @@ namespace DoReMusic.MVC.Controllers
         [HttpGet]
         public IActionResult InstrumentsOfKind(string category, string kind, string sort="default")
         {
-            // Retrieve instruments that match the selected category and kind
-            // You can fetch data from your data source based on the category and kind
-
             
             var instruments = doReMusicDbContext.Instruments
                 .Where(x => x.Category.Name == category)
