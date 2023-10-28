@@ -8,6 +8,7 @@ using DoReMusic.Domain.Enum;
 using Color = DoReMusic.Domain.Enum.Color;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace DoReMusic.MVC.Controllers
 {
@@ -86,14 +87,15 @@ namespace DoReMusic.MVC.Controllers
 
             return RedirectToAction("Index");
         }
+        
         [HttpGet]
         public IActionResult UpdateInstrument(string id)
         {
-            var instrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(id)).FirstOrDefault(); // Implement your logic to retrieve all brands
+            var instrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(id)).Include(x => x.Brand).Include(x=>x.Category).FirstOrDefault(); // Implement your logic to retrieve all brands
 
             var viewModel = new UpdateInstrumentModel()
             {
-                Id = instrument.Id,
+                Id = instrument.Id.ToString(),
                 Name = instrument.Name,
                 Brand = instrument.Brand.Name,
                 Category = instrument.Category.Name,
@@ -102,11 +104,35 @@ namespace DoReMusic.MVC.Controllers
                 Color = instrument.Color,
                 Price = instrument.Price,
                 ProductionYear = instrument.ProductionYear,
+                Categories = doReMusicDbContext.Categories.ToList(),
+                Brands = doReMusicDbContext.Brands.ToList(),
             };
         
 
-            return View(instrument);
+            return View(viewModel);
         }
+        [HttpPost]
+        public IActionResult UpdateInstrument(UpdateInstrumentViewModel updateInstrumentModel)
+        {
+            Instrument originalInstrument = doReMusicDbContext.Instruments.Where(x => x.Id == Guid.Parse(updateInstrumentModel.Id)).FirstOrDefault();
+            
+            Category newCategory = doReMusicDbContext.Categories.Where(x => x.Name == updateInstrumentModel.Category).FirstOrDefault();
+            Brand newBrand = doReMusicDbContext.Brands.Where(x => x.Name == updateInstrumentModel.Brand).FirstOrDefault();
+
+            originalInstrument.Category = newCategory;
+            originalInstrument.Brand = newBrand;
+            originalInstrument.Kind = updateInstrumentModel.Kind;
+            originalInstrument.Model = updateInstrumentModel.Model;
+            originalInstrument.Name = updateInstrumentModel.Name;
+            originalInstrument.Price = Convert.ToDecimal(updateInstrumentModel.Price);
+            originalInstrument.ProductionYear = updateInstrumentModel.ProductionYear;
+            originalInstrument.Color = (Color)Convert.ToInt32(updateInstrumentModel.Color);
+
+            doReMusicDbContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        
         [HttpGet]
         public IActionResult InstrumentsOfKind(string category, string kind)
         {

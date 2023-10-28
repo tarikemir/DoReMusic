@@ -1,0 +1,132 @@
+﻿@model DoReMusic.MVC.Models.UpdateInstrumentModel
+
+<style>
+    /* Global Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Container Styles */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header Styles */
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    /* Form Group Styles */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Label Styles */
+    label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    /* Input and Select Styles */
+    input[type="text"],
+    select {
+        width: 100%; /* Make both input and select elements full-width */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Button Styles */
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        /* Button Hover Styles */
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="container">
+    <h2>Update Instrument</h2>
+    <form asp-action="UpdateInstrument" method="post">
+        <input type="hidden" value="@Model.Id" class="form-control" name="Id" />
+        <div class="form-group">
+            <label>Instrument Name</label>
+            <input value="@Model.Name" class="form-control" name="Name" />
+        </div>
+        <div class="form-group">
+            <label>Brand</label>
+            <select class="form-control" name="Brand">
+                @foreach (var brand in Model.Brands)
+                {
+                    <option value="@Model.Brand" selected>@brand.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" name="Category">
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@Model.Category" selected>@category.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Kind</label>
+            <select class="form-control" asp-for="Kind">
+                @foreach (var Category in Model.Categories)
+                {
+                    @foreach (var kind in Category.Kinds)
+                    {
+                        <option value="@Model.Kind" selected>@kind</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Model Text</label>
+            <input value="@Model.Model" class="form-control" name="Model" />
+        </div>
+        <div class="form-group">
+            <label>Instrument Color</label>
+            <select class="form-control" name="Color">
+                <option value="1">Red</option>
+                <option value="2">Blue</option>
+                <option value="3">Green</option>
+                <option value="4">Yellow</option>
+                <option value="5">Orange</option>
+                <option value="6">Purple</option>
+                <option value="7">Pink</option>
+                <option value="8">Teal</option>
+                <option value="9">Brown</option>
+                <option value="10">Gray</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Production Year</label>
+            <input value="@Model.ProductionYear" class="form-control" name="ProductionYear" />
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <input value="@Model.Price" class="form-control" name="Price" />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
