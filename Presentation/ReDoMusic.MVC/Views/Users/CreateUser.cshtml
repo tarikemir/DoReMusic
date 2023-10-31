@@ -1,26 +1,75 @@
-﻿<h2>Create User</h2>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+        }
 
-<form method="post">
-	<div class="mb-3 mt-3">
-		<label class="form-label">User First Name:</label>
-		<input type="text" class="form-control" placeholder="Enter First Name:" name="firstName">
-	</div>
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
 
-	<div class"mb-3 mt-3"
-		<label class="form-label">User Last Name:</label>
-		<input type="text" class="form-control" placeholder="Enter Last Name:" name="lastName">
-	</div>
+        .form-group {
+            margin: 20px 0;
+        }
 
-	<div class="mb-3 mt-3">
-		<label class="form-label">Email:</label>
-		<input type="text" class="form-control" placeholder="Enter Email:" name="email">
-	</div>
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-	<div class="mb-3 mt-3">
-		<label class="form-label">Password:</label>
-		<input type="password" class="form-control" placeholder="Enter Password:" name="password">
-	</div>
+        .form-control {
+            width: 30%; /* Adjust the width as needed */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-	<button type="submit" class="btn btn-primary">Create</button>
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-</form>
+            .btn:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <h2>Create User</h2>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="firstName" class="form-label">First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter First Name">
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter Last Name">
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+        </div>
+
+        <button type="submit" class="btn">Create</button>
+    </form>
+</body>
+</html>
