@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DoReMusic.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DoReMusic.Persistence.Migrations
 {
     [DbContext(typeof(DoReMusicDbContext))]
-    partial class DoReMusicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031082645_e_users")]
+    partial class e_users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
