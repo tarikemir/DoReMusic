@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DoReMusic.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DoReMusic.Persistence.Migrations
 {
     [DbContext(typeof(DoReMusicDbContext))]
-    partial class DoReMusicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031221646_e_mig2_addingstuff")]
+    partial class e_mig2_addingstuff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +84,7 @@ namespace DoReMusic.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CartId")
+                    b.Property<Guid?>("CartId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
@@ -234,19 +237,15 @@ namespace DoReMusic.Persistence.Migrations
 
             modelBuilder.Entity("DoReMusic.Domain.Entities.CartItem", b =>
                 {
-                    b.HasOne("DoReMusic.Domain.Entities.Cart", "Cart")
+                    b.HasOne("DoReMusic.Domain.Entities.Cart", null)
                         .WithMany("Items")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartId");
 
                     b.HasOne("DoReMusic.Domain.Entities.Instrument", "Instrument")
                         .WithMany()
                         .HasForeignKey("InstrumentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Cart");
 
                     b.Navigation("Instrument");
                 });
