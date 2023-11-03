@@ -37,7 +37,7 @@ namespace DoReMusic.MVC.Controllers
                 LastName = lastName,
                 Email = email,
                 Password = password,
-                CreatedOn = DateTime.UtcNow,
+                CreatedOn = DateTime.UtcNow
 
             };
 
@@ -51,13 +51,8 @@ namespace DoReMusic.MVC.Controllers
         {
             var user = _context.Users.Where(x => x.Id == Guid.Parse(id)).FirstOrDefault();
             
-            if(user != null)
-            {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
-
-            }
-
+            _context.Users.Remove(user);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
