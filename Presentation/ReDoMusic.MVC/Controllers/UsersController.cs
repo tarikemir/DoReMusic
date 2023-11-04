@@ -42,7 +42,9 @@ namespace DoReMusic.MVC.Controllers
             };
 
             _context.Users.Add(user);
+
             _context.SaveChanges();
+
             return View();
         }
 
@@ -50,11 +52,15 @@ namespace DoReMusic.MVC.Controllers
         public IActionResult DeleteUser(string id)
         {
             var user = _context.Users.Where(x => x.Id == Guid.Parse(id)).FirstOrDefault();
-            
+
             _context.Users.Remove(user);
+
             _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
     }
 }
+
+
+
